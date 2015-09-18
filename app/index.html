@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="cosApp">
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="styles/main.css"/>
+    </head>
+    <body>
+        <div ui-view="application"></div>
+
+        <script src="libs/angular/angular.js"></script>
+        <script src="libs/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="libs/angular-foundation/mm-foundation.js"></script>
+        <script src="libs/angular-foundation/mm-foundation-tpls.js"></script>
+        <script src="libs/ngstorage/ngStorage.js"></script>
+        <script src="config/config.js"></script>
+        <script src="models/auth.factory.js"></script>
+        <script src="models/auth.interceptor.js"></script>
+        <script src="models/user.factory.js"></script>
+        <script src="modules/_application/application.controller.js"></script>
+        <script src="modules/_application/application.route.js"></script>
+        <script src="modules/topbar/topbar.controller.js"></script>
+        <script src="modules/newsfeed/feed.route.js"></script>
+        <script src="modules/newsfeed/feed.controller.js"></script>
+        <script src="modules/userfeed/userfeed.route.js"></script>
+        <script src="modules/userfeed/userfeed.controller.js"></script>
+    </body>
+</html>

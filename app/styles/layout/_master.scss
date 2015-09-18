@@ -1,0 +1,14 @@
+.left-content {
+	width: 70%;
+	float: left;
+}
+
+.right-content {
+	width: 10%;
+	float: right;
+}
+
+.fluid-row {
+	@include grid-row();
+  	max-width: 100%;
+}

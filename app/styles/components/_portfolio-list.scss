@@ -1,0 +1,26 @@
+.portfolio {
+	&__list {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+		&--item {
+			min-height: 150px;
+			position: relative;
+			padding: 5px;
+			img {
+				width: 150px;
+				margin-right: 20px;
+			}
+			.data {
+				position: absolute;
+				display: inline-block;
+				.title {
+					margin: 0;
+				}
+				.meta {
+					margin: 0;
+				}
+			}
+		}
+	}
+}

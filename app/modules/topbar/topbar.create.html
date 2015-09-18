@@ -1,0 +1,24 @@
+<h3>Create user</h3>
+<form ng-submit="topbar.createUser()">
+	<div class="small-4 columns">
+		<input type="text" placeholder="Name" ng-model="topbar.name">
+	</div>
+	<div class="small-4 columns">
+		<input type="text" placeholder="Cosplay Name" ng-model="topbar.cosplayName">
+	</div>
+	<div class="small-4 columns">
+		<input type="text" placeholder="Username" ng-model="topbar.username">
+	</div>
+	<div class="small-12 columns">
+		<input type="password" placeholder="Password" ng-model="topbar.password">
+	</div>
+	<div class="small-12 columns">
+		<input type="submit" class="button expand" value="Create User!">
+	</div>
+</form>
+
+
+{{ topbar.name }}
+{{ topbar.cosplayName }}
+{{ topbar.username }}
+{{ topbar.password }}

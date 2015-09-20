@@ -29,16 +29,35 @@ router.use(function(res, req, next) {
 })
 
 router.route('/login')
-	.post(authenticate, function(req, res) {
-		var token = jwt.sign({
-			username: req.body.username,
-			password: req.body.password
-		}, jwtSecret);
-		res.send(200, {
-			token: token,
-			user: req.body
-		});
-	})
+	.post(function(req, res) {
+		User.findOne({ username : req.body.username }, function(err, user) {
+		    console.log(req.body);
+		    if(err)
+				res.send(err)
+		    if(user && req.body.password === user.password) {
+		    	var token = jwt.sign({
+		    		username: req.body.username,
+		    		password: req.body.password
+		    	}, jwtSecret);
+		        console.log({ user : user });
+		        res.send(200, {
+		        	token: token,
+		        	user: user
+		        });
+		    } else {
+		    	res.send('Username or password is wrong')
+		    }
+		}); 
+
+		// var token = jwt.sign({
+		// 	username: req.body.username,
+		// 	password: req.body.password
+		// }, jwtSecret);
+		// res.send(200, {
+		// 	token: token,
+		// 	user: req.body
+		// });
+})
 
 router.route('/user')
 	.post(function(req,res) {
@@ -55,7 +74,7 @@ router.route('/user')
 
 			res.json({ message: 'User created!' });
 		});
-	});
+});
 
 // Test route
 router.get('/', function(req, res) {
@@ -66,14 +85,14 @@ router.get('/', function(req, res) {
 app.use('/api', router);
 
 function authenticate(req, res, next) {
-  var body = req.body;
-  if (!body.username || !body.password) {
-    res.status(400).end('Must provide username or password');
-  }
-  if (body.username !== body.username || body.password !== body.password) {
-    res.status(401).end('Username or password incorrect');
-  }
-  next();
+	var body = req.body;
+	if (!body.username || !body.password) {
+		res.status(400).end('Must provide username or password');
+	}
+	if (body.username !== user.username || body.password !== user.password) {
+		res.status(401).end('Username or password incorrect');
+	}
+	next();
 }
 
 // Start the server

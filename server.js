@@ -9,7 +9,7 @@ var app			= express();
 var port 		= 1337;
 
 mongoose.connect('mongodb://localhost/cosbox');
-var jwtSecret = 'fjkdlsajfoew239053/3uk';
+var jwtSecret 	= 'fjkdlsajfoew239053/3uk';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -71,6 +71,11 @@ router.route('/user')
 			console.log(user);
 		});
 });
+
+router.route('/me')
+	.get(function(req, res) {
+		
+	});
 
 // Test route
 router.get('/', function(req, res) {

@@ -5,12 +5,14 @@
 		.module('cosApp')
 		.factory('AuthInterceptor', AuthInterceptor);
 
-	function AuthInterceptor(AuthTokenFactory) {
-
+	function AuthInterceptor(AuthFactory) {
+		return {
+			request: addToken
+		};
 
 		function addToken(config) {
-			var token = AuthTokenFactory.getToken();
-			if (token) {
+			var token = AuthFactory.getToken();
+			if(token) {
 				config.headers = config.headers || {};
 				config.headers.Authorization = 'Bearer ' + token;
 			}

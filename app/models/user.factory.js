@@ -8,7 +8,8 @@
 	function UserFactory($http, $q, AuthFactory) {
 		var service = {
 			createUser: createUser,
-			login: login
+			login: login,
+			getUser: getUser
 		};
 
 		return service;
@@ -36,6 +37,14 @@
 
 			return deferred.promise;
 		} 
+
+		function getUser() {
+			if (AuthFactory.getToken()) {
+				return $http.get('api/me');
+			} else {
+				return $q.reject({ data: 'client has no auth token' });
+			}
+		}
 	}
 
 })();

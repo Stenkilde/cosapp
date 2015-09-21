@@ -4,6 +4,7 @@ var mongoose	= require('mongoose');
 var bodyParser	= require('body-parser');
 var jwt			= require('jsonwebtoken');
 var morgan		= require('morgan');
+var bcrypt		= require('bcrypt');
 var app			= express();
 var port 		= 1337;
 
@@ -73,6 +74,7 @@ router.route('/user')
 				res.send(err)
 
 			res.json({ message: 'User created!' });
+			console.log(user);
 		});
 });
 

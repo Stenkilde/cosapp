@@ -31,34 +31,28 @@ router.use(function(res, req, next) {
 
 router.route('/login')
 	.post(function(req, res) {
-		User.findOne({ username : req.body.username }, function(err, user) {
-		    console.log(req.body);
-		    if(err)
-				res.send(err)
-		    if(user && req.body.password === user.password) {
-		    	var token = jwt.sign({
-		    		username: req.body.username,
-		    		password: req.body.password
-		    	}, jwtSecret);
-		        console.log({ user : user });
-		        res.send(200, {
-		        	token: token,
-		        	user: user
-		        });
-		    } else {
-		    	res.send('Username or password is wrong')
-		    }
+		User.findOne({ username : req.body.username }, function(err, user, hash) {
+		  	user.comparePassword(req.body.password, function(err, isMatch) {
+  	            console.log(req.body);
+  	            console.log(isMatch);
+  	            if(err)
+  	        		res.send(err)
+  	            if(user && isMatch) {
+  	            	var token = jwt.sign({
+  	            		username: req.body.username,
+  	            		password: req.body.password
+  	            	}, jwtSecret);
+  	                console.log({ user : user });
+  	                res.send(200, {
+  	                	token: token,
+  	                	user: user
+  	                });
+  	            } else {
+  	            	res.send('Username or password is wrong')
+  	            }
+	  	    });
 		}); 
-
-		// var token = jwt.sign({
-		// 	username: req.body.username,
-		// 	password: req.body.password
-		// }, jwtSecret);
-		// res.send(200, {
-		// 	token: token,
-		// 	user: req.body
-		// });
-})
+	})
 
 router.route('/user')
 	.post(function(req,res) {

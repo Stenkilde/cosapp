@@ -10,16 +10,6 @@ var UserSchema	= new Schema({
   	password: { type: String, required: true }
 });
 
-UserSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};
-
-// checking if password is valid
-UserSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
-};
-
-
 UserSchema.pre('save', function(next) {
     var user = this;
 
@@ -37,11 +27,11 @@ UserSchema.pre('save', function(next) {
 });
 
 UserSchema.methods.comparePassword = function(password, cb) {
-  bcrypt.compare(password, this.password, function(err, isMatch) {
-     if(err)
-       return cb(err);
-     cb(null, isMatch);
-  });
+  	bcrypt.compare(password, this.password, function(err, isMatch) {
+    	if(err)
+       		return cb(err);
+     	cb(null, isMatch);
+  	});
 };
 
 UserSchema.methods.findOrCreate = function(googleResponse, cb) {

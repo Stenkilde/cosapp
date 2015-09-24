@@ -6,25 +6,23 @@
         .controller('Userfeed', Userfeed);
 
     /* @ngInject */
-    function Userfeed(UserFactory, $rootScope) {
+    function Userfeed(UserFactory, $rootScope, $timeout) {
         /*jshint validthis: true */
         var vm 			= this;
         vm.login        = login;
         vm.handleError  = handleError;
 
         function activate() {
-        	UserFactory.getUser().then(function success(response) {
-                  vm.user = response;
-                  console.log($rootScope.user);
+            UserFactory.getUser().then(function success(response) {
+                vm.user = response;
+                console.log(vm.user);
             });
         }
 
         function login(username, password) {
             UserFactory.login(vm.username, vm.password).then(function success(response) {
                 vm.user = response.data;
-                console.log(response);
-                $rootScope.user = response.data.user;
-                console.log($rootScope);
+                vm.user = (response.data);
 
             }, handleError);
         }

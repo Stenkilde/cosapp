@@ -21,7 +21,7 @@
 		}
 
 		function setToken(token) {
-			if (token) {
+			if(token) {
 				store.setItem(key, token);
 			} else {
 				store.removeItem(key);

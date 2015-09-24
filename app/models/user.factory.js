@@ -5,12 +5,15 @@
 	.module('cosApp')
 	.factory('UserFactory', UserFactory);
 
-	function UserFactory($http, $q, AuthFactory) {
+	function UserFactory($http, $q, AuthFactory, $window) {
 		var service = {
 			createUser: createUser,
 			login: login,
 			getUser: getUser
 		};
+
+		var store = $window.localStorage;
+		var key = 'auth-token';
 
 		return service;
 
@@ -39,12 +42,29 @@
 		} 
 
 		function getUser() {
-			if (AuthFactory.getToken()) {
-				return $http.get('api/me');
+			var deferred = $q.defer();
+
+			if(AuthFactory.getToken()) {
+				//return store.getItem(key);
+				return $http.post('/api/me', {
+					token: store.getItem(key)
+				}).then(function(results) {
+					deferred.resolve(results);
+				}, function(err) {
+					deferred.reject(err);
+				});
 			} else {
-				return $q.reject({ data: 'client has no auth token' });
+				return $q.reject({data: 'client has no auth token, please login again'});
 			}
 		}
+
+		// function getUser() {
+		// 	if (AuthFactory.getToken()) {
+		// 		return $http.get('api/me');
+		// 	} else {
+		// 		return $q.reject({ data: 'client has no auth token' });
+		// 	}
+		// }
 	}
 
 })();

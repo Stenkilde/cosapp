@@ -5,10 +5,11 @@
 	.module('cosApp')
 	.factory('UserFactory', UserFactory);
 
-	function UserFactory($http, $q, AuthFactory, $window) {
+	function UserFactory($http, $q, AuthFactory, $window, $state) {
 		var service = {
 			createUser: createUser,
 			login: login,
+			logout: logout,
 			getUser: getUser
 		};
 
@@ -23,48 +24,30 @@
 				password: password
 			}).then(function success(response) {
 				AuthFactory.setToken(response.data.token);
+				$state.go($state.current, {}, {reload: true});
 				return response;
 			});
 		}
 
+		function logout() {
+			store.removeItem(key);
+		}
+
 		function createUser(article) {
-			var deferred = $q.defer();
-
-			var url = '/api/user';
-
-			var userPromise = $http.post(url, article).then(function(results) {
-				deferred.resolve(results);
-			}, function(err) {
-				deferred.reject(err);
+			return $http.post('/api/user', article).then(function(response) {
+				return response.data;
 			});
-
-			return deferred.promise;
 		} 
 
 		function getUser() {
-			var deferred = $q.defer();
-
-			if(AuthFactory.getToken()) {
-				//return store.getItem(key);
-				return $http.post('/api/me', {
-					token: store.getItem(key)
-				}).then(function(results) {
-					deferred.resolve(results);
-				}, function(err) {
-					deferred.reject(err);
-				});
-			} else {
-				return $q.reject({data: 'client has no auth token, please login again'});
-			}
+		  if(AuthFactory.getToken()) {
+		    return $http.post('/api/me', {token: store.getItem(key)})
+		    .then(function(response) {
+		      return response.data;
+		    });
+		  } 
+		  return $q.reject({data: 'client has no auth token, please login again'});
 		}
-
-		// function getUser() {
-		// 	if (AuthFactory.getToken()) {
-		// 		return $http.get('api/me');
-		// 	} else {
-		// 		return $q.reject({ data: 'client has no auth token' });
-		// 	}
-		// }
 	}
 
 })();

@@ -6,12 +6,25 @@
 		.controller('Topbar', Topbar);
 
 	/* @ngInject */
-	function Topbar($modal, UserFactory) {
+	function Topbar($modal, UserFactory, toastr, $state) {
 		/*jshint validthis: true */
 		var vm 			= this;
 		vm.openCreate	= openCreate;
 		vm.createUser	= createUser;
+		vm.logout		= logout;
 		
+		function activate() {
+		    UserFactory.getUser().then(function(response) {
+		        vm.user = response;
+		    });
+		}
+
+		activate();
+
+		function logout() {
+			UserFactory.logout();
+			$state.go($state.current, {}, {reload: true});
+		}
 
 
 		function createUser() {
@@ -20,8 +33,9 @@
 				cosplayName: vm.cosplayName,
 				username: vm.username,
 				password: vm.password
-			}).then(function(result) {
-				console.log(result)
+			}).then(function(response) {
+				console.log(response)
+				toastr.success(response.message);
 			});
 		}
 

@@ -1,16 +1,17 @@
-<h3>Login</h3>
-<form ng-submit="userfeed.login(vm.username, vm.password)">
-	<div class="small-12 columns">
-		<input type="text" placeholder="Username" ng-model="userfeed.username">
-	</div>
-	<div class="small-12 columns">
-		<input type="password" placeholder="Password" ng-model="userfeed.password">
-	</div>
-	<div class="small-12 columns">
-		<input type="submit" class="button expand" value="Login fawker!">
-	</div>
-</form>
-<button ng-click="">Get user</button>
-
-{{ userfeed.username }}
-{{ userfeed.password }}
+<div ng-if="!userfeed.user">
+	<h3>Login</h3>
+	<form ng-submit="userfeed.login(vm.username, vm.password)">
+		<div class="small-12 columns">
+			<input type="text" placeholder="Username" ng-model="userfeed.username">
+		</div>
+		<div class="small-12 columns">
+			<input type="password" placeholder="Password" ng-model="userfeed.password">
+		</div>
+		<div class="small-12 columns">
+			<input type="submit" class="button expand" value="Login fawker!">
+		</div>
+	</form>
+</div>
+<div ng-if="userfeed.user">
+	<h1>Welcome {{userfeed.user.cosplayName}}</h1>
+</div>

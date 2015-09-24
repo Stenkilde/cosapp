@@ -11,6 +11,7 @@
 
 		var service = {
 			getToken: getToken,
+			removeToken: removeToken,
 			setToken: setToken
 		};
 
@@ -18,6 +19,10 @@
 
 		function getToken() {
 			return store.getItem(key);
+		}
+
+		function removeToken() {
+			store.removeItem(key);
 		}
 
 		function setToken(token) {

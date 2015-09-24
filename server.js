@@ -72,7 +72,7 @@ router.route('/user')
 
 		user.save(function(err) {
 			if(err)
-				res.send(err)
+				res.status(401).send({err, message: 'User already exists!'});
 
 			res.json({ message: 'User created!' });
 			console.log(user);
